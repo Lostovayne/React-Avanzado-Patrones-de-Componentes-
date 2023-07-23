@@ -10,7 +10,7 @@ interface Route {
     name: string;
 }
 
-// creando el lazy loading
+// creando el lazy loading y renombrar los chunks , esta es la forma tradicional
 const Lazy1 = lazy(() => import("../01-lazyload/pages/LazyPage1"));
 const Lazy2 = lazy(() => import("../01-lazyload/pages/LazyPage2"));
 const Lazy3 = lazy(() => import("../01-lazyload/pages/LazyPage3"));
