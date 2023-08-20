@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { BrowserRouter, NavLink, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, NavLink, Route, Routes } from "react-router-dom";
 import logo from "../assets/react.svg";
 import { routes } from "./routes";
 
@@ -29,8 +29,6 @@ const Navigation = () => {
                         {routes.map(({ path, Component }) => (
                             <Route key={path} path={path} element={<Component />} />
                         ))}
-
-                        <Route path="/*" element={<Navigate to={routes[0].path} />} />
                     </Routes>
                 </div>
             </BrowserRouter>
