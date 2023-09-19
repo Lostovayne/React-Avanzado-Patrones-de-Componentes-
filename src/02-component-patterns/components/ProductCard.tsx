@@ -14,3 +14,5 @@ export const ProductCard: FC<ProductCardProps> = ({ children, product }: Product
         </Provider>
     );
 };
+
+// ready
