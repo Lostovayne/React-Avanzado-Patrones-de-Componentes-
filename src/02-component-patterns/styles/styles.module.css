@@ -23,6 +23,8 @@
     margin: 10px;
     display: flex;
     flex-direction: row;
+    items-align: center;
+    justify-content: center;
 }
 
 .buttonMinus {
