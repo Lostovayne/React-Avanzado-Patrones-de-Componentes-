@@ -25,7 +25,17 @@ const ShoppingPage = () => {
     const [shoppingCart, setShoppingCart] = useState<{ [key: string]: ProductInCart }>({});
 
     const onProductCountChange = ({ count, product }: { count: number; product: Product }) => {
-        console.log(count, product);
+        setShoppingCart((oldShoppingCart) => {
+            if (count === 0) {
+                const { [product.id]: toDelete, ...rest } = oldShoppingCart;
+                return rest;
+            }
+
+            return {
+                ...oldShoppingCart,
+                [product.id]: { ...product, count },
+            };
+        });
     };
 
     return (
@@ -42,24 +52,32 @@ const ShoppingPage = () => {
                 ))}
             </div>
             <div className="shopping-cart">
-                <ProductCard
-                    product={product}
-                    className="bg-dark text-while"
-                    style={{ width: "120px" }}
-                    // onChange={onProductCountChange}
-                >
-                    <ProductImage className="custom-image" />
-                    <ProductButtons className="custom-buttons" />
-                </ProductCard>
-                <ProductCard
-                    product={product2}
-                    className="bg-dark text-while"
-                    style={{ width: "120px" }}
-                    // onChange={onProductCountChange}
-                >
-                    <ProductImage className="custom-image" />
-                    <ProductButtons className="custom-buttons" />
-                </ProductCard>
+                {shoppingCart && Object.keys(shoppingCart).length > 0 ? (
+                    Array.from(Object.entries(shoppingCart)).map(([key, value]) => (
+                        <ProductCard
+                            key={key}
+                            product={value}
+                            className="bg-dark text-while"
+                            style={{ width: "120px" }}
+                            onChange={onProductCountChange}
+                            value={value.count}
+                        >
+                            <ProductImage className="custom-image" />
+                            <ProductButtons
+                                className="custom-buttons"
+                                style={{ display: "flex", justifyContent: "center" }}
+                            />
+                        </ProductCard>
+                    ))
+                ) : (
+                    <p>Cart is empty</p>
+                )}
+            </div>
+
+            <div>
+                <code>
+                    <pre>{JSON.stringify(shoppingCart, null, 2)}</pre>
+                </code>
             </div>
         </div>
     );

@@ -12,11 +12,19 @@ export interface Props {
     className?: string;
     style?: CSSProperties;
     onChange?: (args: onChangeArgs) => void;
+    value?: number;
 }
 
-export const ProductCard: FC<Props> = ({ children, product, className = "", style, onChange }: Props): JSX.Element => {
+export const ProductCard: FC<Props> = ({
+    children,
+    product,
+    className = "",
+    style,
+    onChange,
+    value,
+}: Props): JSX.Element => {
     // Pasando la funcion al Custom Hook
-    const { counter, increaseBy } = useProducts({ onChange, product });
+    const { counter, increaseBy } = useProducts({ onChange, product, value });
     return (
         <Provider value={{ counter, increaseBy, product }}>
             <div className={`${styles.productCard} ${className} `} style={style}>
