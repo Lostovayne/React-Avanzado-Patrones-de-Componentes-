@@ -1,6 +1,7 @@
+import { FC } from "react";
 import Navigation from "./routes/Navigation";
 
-const App = () => {
+const App:FC = () => {
     return (
         <>
             <Navigation />
