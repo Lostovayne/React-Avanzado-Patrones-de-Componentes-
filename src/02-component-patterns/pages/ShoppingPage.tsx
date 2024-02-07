@@ -1,42 +1,12 @@
-import { useState } from "react";
 import { ProductButtons, ProductCard, ProductImage, ProductTitle } from "../components";
-import { Product } from "../interfaces/interfaces";
+import { useShoppingCart } from "../hooks/useShoppingCart";
 import "../styles/custom-styles.css";
-
-const product = {
-    id: "1",
-    title: "Coffee Mug",
-    img: "./coffee-mug.png",
-};
-
-const product2 = {
-    id: "2",
-    title: "Coffee Mug - Meme",
-    img: "./coffeemug2.png",
-};
-
-const products: Product[] = [product, product2];
-
-interface ProductInCart extends Product {
-    count: number;
-}
+import { products } from "./../data/products";
 
 const ShoppingPage = () => {
-    const [shoppingCart, setShoppingCart] = useState<{ [key: string]: ProductInCart }>({});
+    // principal State
 
-    const onProductCountChange = ({ count, product }: { count: number; product: Product }) => {
-        setShoppingCart((oldShoppingCart) => {
-            if (count === 0) {
-                const { [product.id]: toDelete, ...rest } = oldShoppingCart;
-                return rest;
-            }
-
-            return {
-                ...oldShoppingCart,
-                [product.id]: { ...product, count },
-            };
-        });
-    };
+    const { onProductCountChange, shoppingCart } = useShoppingCart();
 
     return (
         <div>
@@ -44,7 +14,13 @@ const ShoppingPage = () => {
             <hr />
             <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
                 {products.map((product) => (
-                    <ProductCard key={product.id} product={product} className="bg-dark" onChange={onProductCountChange}>
+                    <ProductCard
+                        key={product.id}
+                        product={product}
+                        className="bg-dark"
+                        onChange={onProductCountChange}
+                        value={shoppingCart[product.id]?.count || 0}
+                    >
                         <ProductImage className="custom-image" />
                         <ProductTitle className="text-while" />
                         <ProductButtons className="custom-buttons" />
@@ -72,12 +48,6 @@ const ShoppingPage = () => {
                 ) : (
                     <p>Cart is empty</p>
                 )}
-            </div>
-
-            <div>
-                <code>
-                    <pre>{JSON.stringify(shoppingCart, null, 2)}</pre>
-                </code>
             </div>
         </div>
     );
