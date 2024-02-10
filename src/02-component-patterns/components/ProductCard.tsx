@@ -1,9 +1,9 @@
-import { CSSProperties, FC, ReactElement, createContext } from "react";
+import { CSSProperties, FC, ReactElement } from "react";
+import { ProductContext } from "../context/ProductContext";
 import { useProducts } from "../hooks/useProducts";
-import { Product, ProductContextProps, onChangeArgs } from "../interfaces/interfaces";
+import { InitialValues, Product, onChangeArgs } from "../interfaces/interfaces";
 import styles from "../styles/styles.module.css";
 
-export const ProductContext = createContext({} as ProductContextProps);
 const { Provider } = ProductContext;
 
 export interface Props {
@@ -13,6 +13,7 @@ export interface Props {
     style?: CSSProperties;
     onChange?: (args: onChangeArgs) => void;
     value?: number;
+    initialValues?: InitialValues;
 }
 
 export const ProductCard: FC<Props> = ({
@@ -22,9 +23,10 @@ export const ProductCard: FC<Props> = ({
     style,
     onChange,
     value,
+    initialValues,
 }: Props): JSX.Element => {
     // Pasando la funcion al Custom Hook
-    const { counter, increaseBy } = useProducts({ onChange, product, value });
+    const { counter, increaseBy } = useProducts({ onChange, product, value, initialValues });
     return (
         <Provider value={{ counter, increaseBy, product }}>
             <div className={`${styles.productCard} ${className} `} style={style}>
